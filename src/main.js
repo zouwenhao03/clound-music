@@ -1,6 +1,13 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-
-createApp(App).use(store).use(router).mount('#app')
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+import vant from "vant";
+import "vant/lib/index.css";
+import loadSvg from "./icons/index";
+import { ConfigProvider } from 'vant';
+import preReClick from '@/directives/debounce.js';
+import touch from '@/directives/touch.js';
+const app = createApp(App);
+loadSvg(app);
+app.use(store).use(router).use(vant).use(ConfigProvider).use(touch).use(preReClick).mount("#app");
