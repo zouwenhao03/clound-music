@@ -19,12 +19,22 @@ const routes = [
         name: "My",
         component: () => import("@/views/my.vue"),
       },
+      {
+        path: "/playList",
+        name: "playList",
+        component: () => import("@/views/playList.vue"),
+      },
     ],
   },
+  // {
+  //   path: "/playList",
+  //   name: "playList",
+  //   component: () => import("@/views/playList.vue"),
+  // },
   {
-    path: "/playList/:id",
-    name: "playList",
-    component: () => import("@/views/playList.vue"),
+    path: "/test1",
+    name: "test1",
+    component: () => import("@/views/test1.vue"),
   },
   {
     path: "/login",

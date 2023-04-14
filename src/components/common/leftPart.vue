@@ -249,6 +249,7 @@ const toLogin = ()=>{
   top: 0;
   background: #1f1e23;
   transition: width 3s;
+  z-index: 102;
 }
 
 .light-theme {

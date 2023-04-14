@@ -1,26 +1,48 @@
 <template>
   <div class="layout">
     <van-config-provider :theme="activeTheme">
-      <Head @fn="fn" ></Head>
+      <Head @fn="fn" v-if="showCom"></Head>
       <router-view></router-view>
-      <foot :theme="activeTheme"></foot>
+      <playcontrol :theme="activeTheme" :position="positionf"></playcontrol>
+      <foot :theme="activeTheme" v-if="showCom"></foot>
       <left-part :theme="activeTheme"></left-part>
     </van-config-provider>
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { onUpdated, ref } from "vue";
 import Head from "@/components/viewscom/home/head.vue";
 import foot from "@/components/common/footer.vue";
 import leftPart from "../common/leftPart.vue";
+import playcontrol from "../common/playcontrol.vue";
+import { useRoute } from "vue-router";
+import { onBeforeMount } from "vue";
+const route = useRoute();
+const showCom = ref(true);
+const positionf = ref('')
+onUpdated(() => {
+  jundePath()
+});
 const activeTheme = ref("dark");
 const fn = (val) => {
   console.log(555);
   activeTheme.value = val;
 };
+const jundePath =()=>{
+  if(route.path == '/playList'){
+    showCom.value =false
+    positionf.value = 'bottom'
+  }else{
+    showCom.value = true
+    positionf.value = ''
+  }
+}
+onBeforeMount(()=>{
+jundePath()
+})
 </script>
 <style lang="less">
-.layout{
+.layout {
   position: relative;
 }
 .van-theme-dark body {

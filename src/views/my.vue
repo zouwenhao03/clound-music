@@ -15,7 +15,7 @@
           <div class="signature">{{ userInfo.signature }}</div>
         </div>
       </div>
-      <div class="userLike">
+      <div class="userLike" >
         <div class="like-bg">
           <img :src="userLikes.coverImgUrl" alt="" />
         </div>
@@ -27,7 +27,7 @@
       </div>
       <div class="user-playlist">
         <div class="top_text">创建歌单（{{ userPlaylist.length }}个）</div>
-        <div class="paly-item" v-for="item in userPlaylist" :key="item.id">
+        <div class="paly-item" v-for="item in userPlaylist" :key="item.id" @click="goPlaylist(item.id)">
           <div class="paly-bg">
             <img :src="item.coverImgUrl" alt="" />
           </div>
@@ -111,6 +111,13 @@ const getUserPlay = async () => {
   userLikes.value = playlist[0];
   userPlaylist.value = playlist.slice(1);
 };
+//跳转
+const goPlaylist = (id)=>{
+  router.push({
+    path:'/playList',
+    query:{id}
+  })
+}
 </script>
 <style lang="less" scoped>
 .no-login {

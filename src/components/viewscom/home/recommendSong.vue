@@ -32,7 +32,10 @@ onBeforeMount(async () => {
   recommendList.value = result;
 });
 const goPlayList = (id) => {
-  router.push(`/playList/${id}`);
+  router.push({
+    path: "/playList",
+    query: { id },
+  });
 };
 </script>
 <style lang="less" scoped>
