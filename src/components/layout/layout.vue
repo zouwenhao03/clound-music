@@ -19,27 +19,28 @@ import { useRoute } from "vue-router";
 import { onBeforeMount } from "vue";
 const route = useRoute();
 const showCom = ref(true);
-const positionf = ref('')
+const positionf = ref("");
 onUpdated(() => {
-  jundePath()
+  jundePath();
 });
 const activeTheme = ref("dark");
 const fn = (val) => {
-  console.log(555);
   activeTheme.value = val;
 };
-const jundePath =()=>{
-  if(route.path == '/playList'){
-    showCom.value =false
-    positionf.value = 'bottom'
-  }else{
-    showCom.value = true
-    positionf.value = ''
+const jundePath = () => {
+  let path = route.path;
+  const witeList = ["/playList", "/search", "/searchresult"];
+  if (witeList.includes(path)) {
+    showCom.value = false;
+    positionf.value = "bottom";
+  } else {
+    showCom.value = true;
+    positionf.value = "";
   }
-}
-onBeforeMount(()=>{
-jundePath()
-})
+};
+onBeforeMount(() => {
+  jundePath();
+});
 </script>
 <style lang="less">
 .layout {
@@ -57,5 +58,6 @@ jundePath()
 /* 添加这段样式后，Primary Button 会变成红色 */
 :root:root {
   --van-tabbar-height: 1rem;
+  
 }
 </style>

@@ -8,19 +8,17 @@ axios.defaults.timeout = 10000;
 axios.defaults.headers.post["Content-Type"] =
   "application/x-www-form-urlencoded;charset=UTF-8";
 
-axios.defaults.withCredentials = true;
+//axios.defaults.withCredentials = true;
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
-  baseURL: "http://192.168.1.9:3000",
+  baseURL: "http://192.168.1.111:3000",
   // 超时
   timeout: 10000,
+  withCredentials: true,
 });
 // 请求拦截器
 service.interceptors.request.use(
   (config) => {
-    // if (getUserCookie()) {
-    //   config.headers.cookie = getUserCookie();
-    // }
     return config;
   },
   (error) => {

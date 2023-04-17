@@ -13,10 +13,9 @@
         <input type="text" placeholder="xxxxx" />
       </div> -->
       <van-search
-        v-model="value"
-        disabled
         shape="round"
         placeholder="请输入搜索关键词"
+        @focus="goSearh"
       />
     </div>
     <div class="nav-right" @click="emitTheme">
@@ -38,6 +37,8 @@
 <script setup>
 import { defineEmits, ref } from "vue";
 import emitter from "@/utils/bus";
+import{useRouter} from 'vue-router';
+const router = useRouter()
 const emit = defineEmits(["fn"]);
 const theme = ref("dark");
 const emitTheme = () => {
@@ -55,6 +56,9 @@ const emitLeft = () => {
  // console.log(leftStatus.value)
   emitter.emit("changeStatus",leftStatus.value);
 };
+const goSearh = ()=>{
+  router.push('/search')
+}
 </script>
 <style lang="less" scoped>
 .nav-container {

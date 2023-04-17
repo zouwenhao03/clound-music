@@ -90,7 +90,7 @@
               <div>{{ s.ar[0].name }}</div>
             </div>
           </div>
-          <div class="right" >
+          <div class="right">
             <svg-icon
               class-nam="more"
               iconClass="more"
@@ -103,7 +103,7 @@
   </div>
 </template>
 <script setup>
-import { onBeforeMount, ref,computed } from "vue";
+import { onBeforeMount, ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getPlayList } from "@/api/play.js";
 import { useStore } from "vuex";
@@ -123,24 +123,40 @@ const getPlayListInfo = async (id) => {
   let res = await getPlayList(id);
   curplayList.value = res.data.playlist;
 };
+const playIdList = computed(() => store.getters.playIdList);
+const playList = computed(() => store.state.play.playList);
 const addPlayList = () => {
   store.commit("SET_PALYLIST", curplayList.value.tracks);
+  const ids = getIds();
+  store.commit("SET_PLAYIDLIST", ids);
+  store.commit("SET_CURRERNTSID", ids[0]);
+  // store.commit("SET_ISPLAY",true)
 };
-const playList = computed(() => store.state.play.playList);
-const currIndex = computed(() => store.state.play.currentIndex);
-const startPlayM = (index,id) => {
+
+const getIds = () => {
+  const length = curplayList.value.tracks.length;
+  return curplayList.value.trackIds.splice(0, length).map((item) => item.id);
+};
+const startPlayM = (index, id) => {
   //先判断是否加入歌单
   if (playList.length > 0) {
     store.commit("SET_CURRENTINDEX", index);
+    store.commit("SET_CURRERNTSID", id);
+    store.commit("SET_ISPLAY", true);
   } else {
     store.commit("SET_PALYLIST", curplayList.value.tracks);
+    const ids = getIds();
+    store.commit("SET_PLAYIDLIST", ids);
     store.commit("SET_CURRENTINDEX", index);
+    store.commit("SET_CURRERNTSID", id);
+    store.commit("SET_ISPLAY", true);
   }
 };
 </script>
 <style lang="less" scoped>
 .playList-page {
   //padding: 0.2rem;
+  margin-bottom: 1.25rem;
   .top-part {
     width: 100%;
     height: 6rem;
@@ -236,7 +252,7 @@ const startPlayM = (index,id) => {
     position: relative;
     z-index: 100;
     padding: 0.2rem;
-    border-radius: 2.5% 2.5% 0 0;
+    border-radius: 0.5rem 0.5rem 0 0;
     margin-top: -0.6rem;
     box-shadow: 0px -0.1rem 0.1rem 0px rgba(0, 0, 0, 0.5);
     background: linear-gradient(

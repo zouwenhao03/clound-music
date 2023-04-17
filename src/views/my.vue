@@ -15,7 +15,7 @@
           <div class="signature">{{ userInfo.signature }}</div>
         </div>
       </div>
-      <div class="userLike" >
+      <div class="userLike">
         <div class="like-bg">
           <img :src="userLikes.coverImgUrl" alt="" />
         </div>
@@ -27,7 +27,12 @@
       </div>
       <div class="user-playlist">
         <div class="top_text">创建歌单（{{ userPlaylist.length }}个）</div>
-        <div class="paly-item" v-for="item in userPlaylist" :key="item.id" @click="goPlaylist(item.id)">
+        <div
+          class="paly-item"
+          v-for="item in userPlaylist"
+          :key="item.id"
+          @click="goPlaylist(item.id)"
+        >
           <div class="paly-bg">
             <img :src="item.coverImgUrl" alt="" />
           </div>
@@ -61,34 +66,38 @@ import { onBeforeMount, ref, computed, nextTick } from "vue";
 import { getUserCookie } from "@/utils/userCookie";
 import { getPersonalized } from "@/api/home.js";
 import { mapState, useStore } from "vuex";
-import useState from "@/hook/useStore.js";
 const store = useStore();
 const router = useRouter();
 const goLogin = () => {
   router.push("/login");
 };
 let userInfo = ref({});
-let isLogin = ref(false);
+//let isLogin = ref(false);
 let PersonalizedList = ref([]);
 let backGroundbg = ref("");
 let userlevel = ref(null);
 const userId = ref("");
+const isLogin = computed(() => store.getters.isLogin);
 onBeforeMount(async () => {
-  if (!getUserCookie()) {
+  console.log(isLogin.value)
+  if (!isLogin.value) {
+    console.log(111)
     let {
       data: { result },
     } = await getPersonalized();
     PersonalizedList.value = result;
     return;
+  } else {
+    console.log(222)
+    userId.value = localStorage.getItem("useid");
+    store.dispatch("getUserProfile").then(() => {
+      // isLogin.value = true;
+      userInfo.value = store.getters.userInfo;
+      userlevel.value = computed(() => store.state.user.userLevel);
+    });
+    getUserPlay();
   }
-  userId.value = localStorage.getItem("useid");
-  store.dispatch("getUserProfile").then(() => {
-    isLogin.value = true;
-    userInfo.value = store.getters.userInfo;
-    userlevel.value = computed(()=>store.state.user.userLevel) ;
-  });
 
-  getUserPlay();
   //backGroundbg.value = `background:url("${profile.backgroundUrl}")no-repeat 10%/cover`;
 });
 //获取用户资料
@@ -112,12 +121,12 @@ const getUserPlay = async () => {
   userPlaylist.value = playlist.slice(1);
 };
 //跳转
-const goPlaylist = (id)=>{
+const goPlaylist = (id) => {
   router.push({
-    path:'/playList',
-    query:{id}
-  })
-}
+    path: "/playList",
+    query: { id },
+  });
+};
 </script>
 <style lang="less" scoped>
 .no-login {
@@ -145,7 +154,7 @@ const goPlaylist = (id)=>{
 
   .top-container {
     height: 2.25rem;
-    border: 1px solid #ccc;
+    box-shadow: 0px 2px 10px 0px rgba(154, 150, 150, 0.5) ;
     border-radius: 0.25rem;
     .avatar {
       text-align: center;
@@ -185,7 +194,7 @@ const goPlaylist = (id)=>{
     width: 100%;
     height: 1.25rem;
     border-radius: 0.2rem;
-    border: 1px solid #ccc;
+    box-shadow: 0px 2px 10px 0px rgba(154, 150, 150, 0.5) ;
     display: flex;
     align-items: center;
     .like-bg {
@@ -214,7 +223,7 @@ const goPlaylist = (id)=>{
       font-size: 0.24rem;
       padding: 0.1rem;
       border-radius: 0.2rem;
-      border: 1px solid #ccc;
+      box-shadow: 0px 2px 10px 0px rgba(154, 150, 150, 0.5) ;
       position: relative;
       right: -1rem;
     }
@@ -225,7 +234,7 @@ const goPlaylist = (id)=>{
       font-size: 0.22rem;
       margin-bottom: 0.15rem;
     }
-    border: 1px solid #ccc;
+    box-shadow: 0px 2px 10px 0px rgba(154, 150, 150, 0.5) ;
     padding: 0.2rem;
     margin-top: 0.2rem;
     border-radius: 0.2rem;

@@ -21,6 +21,6 @@ import rankingList from '../components/viewscom/home/rankingList.vue';
 .home{
   padding: 0.2rem;
   //;
-  margin-bottom: 1.25rem;
+  margin-bottom: 2.6rem;
 }
 </style>

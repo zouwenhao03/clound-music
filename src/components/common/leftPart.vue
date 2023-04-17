@@ -73,18 +73,20 @@ import {
   onUpdated,
   watch,
   nextTick,
+  computed,
 } from "vue";
 import { useStore } from "vuex";
 import { getNewsong } from "@/api/user.js";
 let openStatus = ref(false);
 const store = useStore();
+const isLogin = computed(()=>store.getters.isLogin)
 const props = defineProps({
   theme: {
     type: String,
     default: () => "dark",
   },
 });
-const isLogin = ref(false);
+//const isLogin = ref(false);
 const userInfo = ref({});
 const days = ref(0);
 const newSongsList = ref([]);
@@ -132,7 +134,7 @@ watch(
   () => {
     if (openStatus.value) {
       nextTick(() => {
-        if(getUserCookie){
+        if(isLogin){
           typeText();
         }
       });
@@ -198,8 +200,8 @@ onBeforeMount(() => {
     openStatus.value = val;
   });
 
-  if (getUserCookie()) {
-    isLogin.value = true;
+  if (isLogin.value) {
+    //isLogin.value = true;
     store.dispatch("getUserProfile").then((data) => {
       userInfo.value = store.getters.userInfo;
       days.value = data.createDays;
@@ -229,7 +231,7 @@ const userLogout = () => {
     openStatus.value = false;
     const sayHi = document.getElementById("sayHi");
     const wif = document.getElementById("wif");
-    isLogin.value = false
+   // isLogin.value = false
     wif.innerHTML = "";
     sayHi.innerHTML = "";
     showSongs.value = false;

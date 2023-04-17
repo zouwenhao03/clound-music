@@ -41,10 +41,10 @@ console.log(props.theme.value)
 const activeIndex = ref(1);
 const footMenuList = reactive([
   { id: 1, icon: "musicLogo", text: "发现",path:'/home'},
-  { id: 2, icon: "boke", text: "播客" },
+  { id: 2, icon: "boke", text: "播客" ,path:'/fm'},
   { id: 3, icon: "my", text: "我的", width: 0.6,path:'/my' },
-  { id: 4, icon: "fllow", text: "关注", width: 0.6 },
-  { id: 5, icon: "community", text: "社区", width: 0.7 },
+  { id: 4, icon: "fllow", text: "关注", width: 0.6,path:'/fllow' },
+  { id: 5, icon: "community", text: "社区", width: 0.7 ,path:'/community'},
 ]);
 const changeFooterItem = (id,path) => {
   activeIndex.value = id;

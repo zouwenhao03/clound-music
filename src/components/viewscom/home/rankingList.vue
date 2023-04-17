@@ -2,13 +2,13 @@
   <div class="rank-container">
     <div class="word">排行榜</div>
 
-    <van-swipe :loop="false"  indicator-color="#FA464F">
-      <van-swipe-item v-for="top in topList" :key="top.id">
+    <van-swipe :loop="false" indicator-color="#FA464F">
+      <van-swipe-item v-for="top in topList" :key="top.id"  @click="goPlay(top.id)">
         <div class="rank-item">
           <div class="item-title">
-            <div> {{ top.name }}</div>
+            <div>{{ top.name }}</div>
             <div>{{ top.updateFrequency }}</div>
-        </div>
+          </div>
           <div class="item-bottom">
             <div class="left-pic">
               <img :src="top.coverImgUrl" alt="" />
@@ -20,7 +20,7 @@
                 :key="index"
               >
                 {{ index + 1 }} {{ item.first }}{{ item.second }}
-              </div>    
+              </div>
             </div>
           </div>
         </div>
@@ -29,8 +29,10 @@
   </div>
 </template>
 <script setup>
-import { onBeforeMount, ref } from "vue";
+import { computed, onBeforeMount, ref } from "vue";
 import { getTopList } from "../../../api/home";
+import { useRouter } from "vue-router";
+const router =useRouter()
 let topList = ref(null);
 onBeforeMount(async () => {
   let {
@@ -39,6 +41,14 @@ onBeforeMount(async () => {
   topList.value = list.slice(0, 5);
   console.log(topList);
 });
+
+const goPlay = (id) => {
+  router.push({
+    path:'/playList',
+    query:{id}
+  })
+ 
+};
 </script>
 <style lang="less" scoped>
 .rank-container {
@@ -53,25 +63,24 @@ onBeforeMount(async () => {
     padding: 0.2rem;
     //background: #fff;
     //border: 1px solid #fff;
-    .item-title{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        :last-child{
-            color: #ccc;
-            font-size: 0.24rem;
-        }
+    .item-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      :last-child {
+        color: #ccc;
+        font-size: 0.24rem;
+      }
     }
     .item-bottom {
-        margin-top: 0.1rem;
+      margin-top: 0.1rem;
       display: flex;
-      
+
       .left-pic {
         margin-right: 0.2rem;
         img {
           width: 2rem;
           height: 2rem;
-          
         }
       }
       .right-word {
@@ -79,7 +88,7 @@ onBeforeMount(async () => {
         flex-direction: column;
         justify-content: space-around;
         .item-detail {
-         width: 3.8rem;
+          width: 3.8rem;
           overflow: hidden;
           white-space: nowrap;
           overflow: hidden;

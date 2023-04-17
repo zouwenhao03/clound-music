@@ -24,13 +24,10 @@ export function getUserInfo(id) {
     method: "get",
   });
 }
-export function getLoginStatus(cookie) {
+export function getLoginStatus() {
   return request({
     url: `/login/status?timestamp=${Date.now()}`,
     method: "post",
-    data: {
-      cookie,
-    },
   });
 }
 
